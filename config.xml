@@ -107,9 +107,4 @@
     <allow-navigation href="http://localhost:8103" sessionid="ebaf3267" />
     <allow-navigation href="http://localhost:8104" sessionid="063e96f4" />
     <allow-navigation href="http://localhost:8105" sessionid="07f7de44" />
-    <allow-navigation href="http://localhost:8107" sessionid="e1f7fdfb" />
-    <allow-navigation href="http://localhost:8108" sessionid="86f4aedf" />
-    <allow-navigation href="http://localhost:8110" sessionid="92dc477f" />
-    <allow-navigation href="http://localhost:8111" sessionid="3b6df75c" />
-    <allow-navigation href="http://localhost:8112" sessionid="4e8715e5" />
 </widget>

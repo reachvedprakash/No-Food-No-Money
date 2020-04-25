@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>location-results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="tabs-wrapper">
+    <div class="tab need-help">
+        <div class="count active"><span class="user"><i class="flaticon-user"></i></span><span>{{getTotalPoints()}}</span></div>
+        <div class="text">
+            <p *ngFor="let lang of needFoodLangs; let i=index" class="other-lang" [class.active]="activeIntlLangIndex == i">{{lang}} (Need food)</p>
+            <div class="check"><i class="flaticon-circle-with-check-symbol"></i></div>
+        </div> 
+        
+    </div>
+    <div class="help-icon">
+      <img src="../../assets/info-icon.png" (click)="openModal()">
+    </div>
+</div>
+
+<div id="map">
+    <!-- <ion-button ion-button (click)="onButtonClick()">Demo</ion-button> -->
+</div>
+
+ <div class="popup-container" [class.active]="isModalOpen">
+        <div class="popup-backdrop">
+            <div class="popup-wrapper">
+                <div class="header">
+                    <div class="img-wrap">
+                        <img src="../../assets/no-help.png">
+                    </div>
+                    <img class="close" (click)="closeModal()" src="../../assets/close-icon.png">
+                </div>
+                <div class="content">
+                    <p>
+                        No Food No Money is a non profit initiative to fight with hunger issues. <br/><br/>It helps by tracking GPS location of person who needs food and shows these locations to nearby people. 
+                        Near by people, NGO's, Authorities can the help in need for food. <br/><br/>We don't save any personal data of any user, we only save location (latitude & longitude) of users who choose to get help for food. 
+                        For any queries or suggestions, please mail us at nofoodnomoney@gmail.com.
+                       
+                    </p>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="popup-container" [class.active]="isLocModalOpen">
+    <div class="popup-backdrop">
+        <div class="popup-wrapper">
+            <div class="header">
+                <div class="img-wrap">
+                    <img src="../../assets/no-help.png">
+                </div>
+                <img class="close" (click)="closeLocationModal()" src="../../assets/close-icon.png">
+            </div>
+            <div class="content">
+                <p>
+                    This initiative depends on your location and we couldn't access your location. Please enable your location to use this site.
+                    <br/><br/>
+                </p>
+
+                    <h4>Why we need your location ?</h4>
+                 <p>  If you are selecting "I need food", we will show your location to people around you upto 5 kms and if you are selecting "I can help", we will show locations of people who need food around you upto 5 kms. 
+                </p>
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>
+
+</ion-content>

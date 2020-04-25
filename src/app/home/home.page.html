@@ -1,20 +1,139 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Blank
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+
+
+  <div class="main-container">
+    <!-- <div id="google_translate_element" class="google-translate"></div> -->
+    <!-- <div class="popup-container" [class.active]="isModalOpen">
+        <div class="popup-backdrop">
+            <div class="popup-wrapper">
+                <div class="header">
+                    <h3>Title</h3>
+                    <span class="close" (click)="closeModal()"><i class="flaticon-close-button"></i></span>
+                </div>
+                <div class="content">
+                    For more straightforward sizing in CSS, we switch the global box-sizing value from content-box to border-box. This ensures padding does not affect the final computed width of an element, but it can cause problems with some third party software like Google Maps and Google Custom Search Engine.
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="col need-help">
+      
+        <div class="wrapper">
+            <div class="img-wrap">
+                <img src="../../assets/need-help.png">
+            </div>
+            <div class="text-wrap">
+                <h3>I Need Food</h3>
+                <div class="other-lang-wrap">
+                    <h3 *ngFor="let lang of indianNeedLangs; let i=index" class="other-lang" [class.active]="activeIndianLangIndex == i">{{lang}}</h3>
+                </div>
+                <div class="other-lang-wrap">
+                    <h3 *ngFor="let lang of intlNeedLangs; let i=index" class="other-lang" [class.active]="activeIntlLangIndex == i">{{lang}}</h3>
+                </div> 
+               
+            </div>
+            <div class="row-wrapper">
+                <div class="tel-block">
+                   <img src="../../assets/tel.png" />
+                </div>
+                <div class="input-icon-wrap">
+                    <input type="number" [(ngModel)]="phoneNo" class="input-with-icon" id="form-name">
+                </div>
+            </div>  
+            <div>	
+                <button class="btn" (click)="goToResults('need')">Select</button>
+            </div>
+        </div>
+    </div>
+  
+  <!--   <div class="col no-help">
+        <div class="wrapper">
+            <div class="img-wrap">
+                <img src="../../assets/no-help.png">
+            </div>
+            <div class="text-wrap">
+                <h3>Unable to help</h3>
+                    <div class="other-lang-wrap">
+                        <h3 *ngFor="let lang of langs; let i=index" class="other-lang" [class.active]="activeLangIndex == i">{{lang}}</h3>
+                    </div>
+                     <div class="other-lang-wrap">
+                        <h3 *ngFor="let lang of langs; let i=index" class="other-lang" [class.active]="activeLangIndex == i">{{lang}}</h3>
+                    </div>
+                <button class="btn" (click)="goToResults('noHelp')">Select</button>
+            </div>
+        </div>
+    </div> -->
+    <div class="col do-help">
+        <div class="wrapper">
+            <div class="img-wrap">
+                <img src="../../assets/do-help.png">
+            </div>
+            <div class="text-wrap">
+                    <h3>I can help</h3>
+                    <div class="other-lang-wrap">
+                        <h3 *ngFor="let lang of indianHelpLanguages; let i=index" class="other-lang" [class.active]="activeIndianLangIndex == i">{{lang}}</h3>
+                    </div>
+                    <div class="other-lang-wrap">
+                        <h3 *ngFor="let lang of intlHelpLangauges; let i=index" class="other-lang" [class.active]="activeIntlLangIndex == i">{{lang}}</h3>
+                    </div> 
+                   
+            </div>
+            <div>
+              
+                <button class="btn" (click)="goToResults('help')">Select</button>
+            </div>
+        </div>
+    </div>
+  
   </div>
-</ion-content>
+  
+  
+  <div class="popup-container" [class.active]="isModalOpen">
+    <div class="popup-backdrop">
+        <div class="popup-wrapper">
+            <div class="header">
+                <div class="img-wrap">
+                    <img src="../../assets/no-help.png">
+                </div>
+                <img class="close" (click)="closeModal()" src="../../assets/close-icon.png">
+            </div>
+            <div class="content">
+                <p>
+                    No Food No Money is a non profit initiative to help people who can't buy food. 
+                    <br/><br/>
+                </p>
+                <h4>How this works ?</h4>
+                <p>It takes location & phone number of person in need and shows it to all persons who can help in 5 km radius. People who want to help can call them or reach their location to provide food. 
+               </p>
+                <h4>If you need food</h4>
+                 <p> This site will need your phone number and location. Both will be shared with the people around you so they can help you. You need to allow access to your location if not allowed yet.
+                </p>
+  
+                    <h4>If you can help</h4>
+                 <p>  This site will just need your location to show you all persons in need for food in a  5km radius around you. It doesn't save location or show it to others. You need to allow access to your location if not allowed yet.
+                </p>
+                <hr/>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div id="map_canvas">
+  </div>
+
+

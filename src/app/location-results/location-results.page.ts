@@ -146,7 +146,7 @@ async getOldPoints(){
   //       });
   //   }
   // }
-  console.log(this.oldPoints);
+  // console.log(this.oldPoints);
 }
 
 async loadPoints(){
@@ -207,7 +207,7 @@ async loadPoints(){
   //     }
   //   }
   // });
-  console.log(this.points);
+  // console.log(this.points);
   
   await this.getOldPoints();
 }

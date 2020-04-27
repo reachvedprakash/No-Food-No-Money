@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:prod:ios": "cross-env NODE_OPTIONS='--max-old-space-size=8192' ionic cordova build ios --prod --release"
   },
   "private": true,
   "dependencies": {
@@ -29,10 +30,12 @@
     "angularfire2": "^5.4.2",
     "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-androidx": "^1.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.0",
     "cordova-plugin-fcm-with-dependecy-updated": "^6.2.1",
     "cordova-plugin-googlemaps": "^2.7.1",
+    "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
     "core-js": "^2.5.4",
     "firebase": "^7.14.2",
     "geofirex": "^0.1.0",
@@ -89,7 +92,8 @@
     },
     "platforms": [
       "browser",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

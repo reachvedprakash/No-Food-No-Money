@@ -163,8 +163,8 @@ export class HomePage {
 
   async goToResults(choice) {
     console.log(this.position);
-    await this.main.getToken();
-    console.log("TokenRecieved");
+    // await this.main.getToken();
+    // console.log("TokenRecieved");
     if(this.position && (choice != 'need' || choice === 'need' && this.phoneNo)){
 
       let todaysDate = this.timestamp.getDate()+'-'+this.timestamp.getMonth()+'-'+this.timestamp.getFullYear();

@@ -24,8 +24,6 @@ exports.onTriggerNeedHelp = functions.firestore.document("needHelp/{todayDate}/u
 
 
     const fcm : any[] = [];
-
-
     // let fcmArray: any[];
     await db.collection('needHelp').doc(todaysDate).collection('users').doc(uid).get().then ( async res => {
        console.log(res.data());
@@ -53,10 +51,9 @@ exports.onTriggerNeedHelp = functions.firestore.document("needHelp/{todayDate}/u
     
                     const dis = Distance.between(CurPostion, GivenPostion);
                     console.log(dis);
-                    if(dis < Distance('2 km'))
+                    if(dis < Distance('2 km') && p.data().fcm)
                     {
                         fcm.push(p.data().fcm);
-                        console.log("Yes");
                         
                     }
                     console.log(GivenPostion);
@@ -81,7 +78,7 @@ exports.onTriggerNeedHelp = functions.firestore.document("needHelp/{todayDate}/u
                       };
                     const dis = Distance.between(CurPostion, GivenPostion);
                     console.log(dis);
-                    if(dis < Distance('2 km'))
+                    if(dis < Distance('2 km') && p.data().fcm)
                     {
                         fcm.push(p.data().fcm);
                         

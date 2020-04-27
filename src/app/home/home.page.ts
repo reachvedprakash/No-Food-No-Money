@@ -14,8 +14,8 @@ import {
   GoogleMapOptions
 } from '@ionic-native/google-maps';
 import { Environment } from '@ionic-native/google-maps/ngx';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Router,NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';

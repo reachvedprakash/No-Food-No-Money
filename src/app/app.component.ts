@@ -28,6 +28,7 @@ export class AppComponent {
       this.splashScreen.hide();
 
       if (this.platform.is("android") || this.platform.is("ios")) {
+        console.log("InSide Platform");
         await this.main.getToken();
         this.main.RefreshToken();
 

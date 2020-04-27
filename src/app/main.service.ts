@@ -3,9 +3,9 @@ import { FCM } from "@ionic-native/fcm/ngx";
 import * as moment from "moment";
 import * as firebaseApp from "firebase/app";
 import * as geofirex from "geofirex";
-import { AngularFirestore } from "angularfire2/firestore";
+import { AngularFirestore } from "@angular/fire/firestore";
 import { Platform } from "@ionic/angular";
-import { AngularFireAuth } from "angularfire2/auth";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Injectable({
   providedIn: "root",
@@ -43,7 +43,7 @@ export class MainService {
 
   async Login() {
     await this.platform.ready();
-    this.fireAuth.auth.onAuthStateChanged((user) => {
+    this.fireAuth.onAuthStateChanged((user) => {
       if (user) {
         console.log(user);
         if (user.uid) {
@@ -56,10 +56,11 @@ export class MainService {
   }
 
   signIn() {
-    this.fireAuth.auth.signInAnonymously();
+    this.fireAuth.signInAnonymously();
   }
 
   async getToken() {
+    
     await this.fcm.getToken().then((token) => {
       this.fcmToken = token;
       console.log(token);

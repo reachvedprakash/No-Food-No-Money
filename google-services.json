@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "682040151198",
+    "firebase_url": "https://no-food-no-money.firebaseio.com",
+    "project_id": "no-food-no-money",
+    "storage_bucket": "no-food-no-money.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682040151198:android:7ba632cdc157cff2f1ff8f",
+        "android_client_info": {
+          "package_name": "com.bwi.nofoodnomoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682040151198-j42ujnn90bg3ra45vo2090r2b96kkmus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bwi.nofoodnomoney",
+            "certificate_hash": "2d5e3be3926e7f5e65059f53ae34d1d590e90524"
+          }
+        },
+        {
+          "client_id": "682040151198-euib82k7jjablu3kh5j5hsdt2th3vsau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-8E1ucyBG20-2C5iGDU08yQX7RyrIeqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682040151198-euib82k7jjablu3kh5j5hsdt2th3vsau.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "682040151198-ifp2t8mhkuh7nc2bu45i098tmb0gogmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bwi.no-food-no-money"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

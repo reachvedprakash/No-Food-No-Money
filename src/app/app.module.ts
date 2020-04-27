@@ -15,6 +15,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { FCM } from '@ionic-native/fcm/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     GoogleMaps,
+    FCM,
     
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

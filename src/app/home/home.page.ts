@@ -19,6 +19,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Router,NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import * as firebaseApp from 'firebase/app';
+import * as geofirex from 'geofirex';
+import { MainService } from '../main.service';
+
 
 @Component({
   selector: 'app-home',
@@ -29,6 +33,8 @@ export class HomePage {
   map: GoogleMap;
   loading: any;
 
+
+  geo:any = geofirex.init(firebaseApp);
 
   timestamp:Date = new Date();
   userId:string;
@@ -42,7 +48,7 @@ export class HomePage {
   intlNeedLangs:Array<string> = ["necesito comida","j'ai besoin de nourriture","احتاج طعاما","ho bisogno di cibo","食べたい","я нуждаются в пище","Eu preciso de comida","我需要食物","我需要食物","saya membutuhkan makanan","Ich brauche Nahrung","나는 음식이 필요해","tôi cần thức ăn","Ek het kos nodig","kam nevojë për ushqim","ja trebam hranu","potřebuji jídlo","jeg har brug for mad","ik heb eten nodig","ma vajan toitu","მე მჭირდება საჭმელი","χρειάζομαι φαγητό","pono au i ka meaʻai","אני צריך אוכל","kajára van szükségem","teastaíonn bia uaim","ego cibo opus","Man vajag ēdienu","man reikia maisto","надад хоол хэрэгтэй байна","من به غذا احتیاج دارم","Треба ми храна","ฉันต้องการอาหาร","yiyeceğe ihtiyacım var"];
   indianHelpLanguages:Array<string> = ["मैं मदद कर सकता हूँ","আমি সাহায্য করতে পারি","నేను సహాయం చేయగలను","मी मदद करू शकतो","என்னால் உதவ முடியும்","میں مدد کر سکتا ہوں","ನಾನು ಸಹಾಯ ಮಾಡಬಹುದು","હું મદદ કરી શકું છું","ମୁଁ ସାହାଯ୍ୟ କରିପାରିବି","എനിക്ക് സഹായിക്കാനാകും","ਮੈਂ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ","म सहयोग गर्न सक्छु","مان مدد ڪري سگهان ٿو"];
   intlHelpLangauges:Array<string> = ["puedo ayudar","je peux aider","يمكنني المساعدة","posso aiutare","私は助けることができる","я могу помочь","eu posso ajudar","我可以搭把手","我可以搭把手","saya dapat membantu","ich kann helfen","내가 도움이 될 수 있습니다","tôi có thể giúp","ek kan help","mund te ndihmoj","ja mogu pomoći","můžu pomoct","jeg kan hjælpe","ik kan helpen","Ma võin aidata","მე შემიძლია დახმარება","μπορώ να βοηθήσω","Hiki iaʻu ke kōkua","אני יכול לעזור","tudok segíteni","Is féidir liom cabhrú","ego potest auxilium","ES varu palīdzēt","aš galiu padėti","би тусалж чадна","من می توانم کمک کنم","ја могу помоћи","ฉันสามารถช่วยได้","yardım edebilirim"];
-  
+  fcmToken : String = "";
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -51,7 +57,8 @@ export class HomePage {
     private afs: AngularFirestore,
     private fireAuth: AngularFireAuth,
     private route: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private main: MainService
     ) {
       setInterval( () => this.setIndianActiveLang(), 3000 );
       setInterval( () => this.setIntlActiveLang(), 2000 );
@@ -60,22 +67,12 @@ export class HomePage {
   async ngOnInit() {
     await this.platform.ready();
     await this.loadMap();
-
-    this.fireAuth.auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log(user);
-        if(user.uid){
-           this.userId = user.uid;
-        }
-      } else {
-        this.signIn();
-      }
-    });
-
     const lat = JSON.parse(localStorage.getItem('lat'));
     const lng = JSON.parse(localStorage.getItem('lng'));
     if(lat && lng){
-      this.position = {lat:lat,lng:lng};
+      // this.position = {lat:lat,lng:lng};
+      this.position = this.geo.point(lat, lng);
+      this.currentLoc = {lat:lat,lng:lng};
     }
   }
 
@@ -116,8 +113,9 @@ export class HomePage {
    await this.map.getMyLocation().then((location: MyLocation) => {
     this.loading.dismiss();
       console.log(JSON.stringify(location, null ,2));
-      this.position = {lat:location.latLng.lat,lng:location.latLng.lng};
-      console.log(this.position);
+      this.currentLoc = {lat:location.latLng.lat,lng:location.latLng.lng};
+      console.log(this.currentLoc);
+      this.position = this.geo.point(location.latLng.lat, location.latLng.lng);
 
     })
     .catch(err => {
@@ -163,40 +161,29 @@ export class HomePage {
   }
 
 
-
-  signIn() {
-    this.fireAuth.auth.signInAnonymously();
-  }
-
-
   async goToResults(choice) {
     console.log(this.position);
-    console.log(this.userId);
-
+    await this.main.getToken();
+    console.log("TokenRecieved");
     if(this.position && (choice != 'need' || choice === 'need' && this.phoneNo)){
 
       let todaysDate = this.timestamp.getDate()+'-'+this.timestamp.getMonth()+'-'+this.timestamp.getFullYear();
-      //localStorage.setItem('timestamp', this.timestamp.getTime().toString());
-      
       let oldDate = moment().subtract(1, 'days').toDate();
       let oldDateKey = oldDate.getDate()+'-'+oldDate.getMonth()+'-'+oldDate.getFullYear();
     
       const navigationExtras: NavigationExtras = {
           state: {
-          // choice: choice,
-            currentLoc:this.position,
+            currentLoc:this.currentLoc,
             todaysDate:todaysDate
           }
         }
 
-          if (choice === 'help' && this.userId) {
-            
-            // this.afs.collection('help').doc(this.userId).set({position: this.position, timestamp: this.timestamp});
+          if (choice === 'help' && this.position ) { 
+            this.main.willingToHelp( this.position );
             this.route.navigate(['/location-results'], navigationExtras)
           }
-          if (choice === 'need' && this.userId && this.position) {
-            // this.afs.collection('needHelp').doc(todaysDate).collection('users').doc(this.userId).set({position: this.position, timestamp: this.timestamp, phone:this.phoneNo});
-            // this.afs.collection('needHelp').doc(oldDateKey).collection('users').doc(this.userId).delete();
+          if (choice === 'need' && this.position) {
+            this.main.needHelp(this.position, this.phoneNo);
             this.route.navigate(['/thank']);
           }
       }

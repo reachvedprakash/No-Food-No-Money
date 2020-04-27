@@ -98,46 +98,54 @@ async getOldPoints(){
   const firestoreRef =  firestore().collection('needHelp').doc(todaysDate).collection('users');
 
 
-  // firestoreRef.onSnapshot(docSnapshot => {
-  //   console.log(`Received doc snapshot: ${docSnapshot}`);
-  //   docSnapshot.forEach( res => {
-  //     console.log(res.data().position.geopoint);
-  //     this.point  = { 
-  //       lat: res.data().position.geopoint.latitude  ,
-  //       lng: res.data().position.geopoint.longitude
-  //     };
+  firestoreRef.onSnapshot(docSnapshot => {
+    console.log(`Received doc snapshot OLD: ${docSnapshot}`);
+    docSnapshot.forEach( res => {
+      console.log(res.data().position.geopoint);
+      this.point  = { 
+        lat: res.data().position.geopoint.latitude  ,
+        lng: res.data().position.geopoint.longitude
+      };
 
-  //     console.log(this.point);
-  //     let a = Spherical.computeDistanceBetween(this.currentLoc,this.point);
-  //     if( a<= this.radius && this.point.lat !== this.currentLoc.lat && this.point.lng !== this.currentLoc.lng)
-  //     {
-  //       this.oldPoints.push(this.point);
-  //     }
-  //   } )
-  // }, err => {
-  //   console.log(`Encountered error: ${err}`);
-  // });
-
-  const geoPoints = this.geo.query(firestoreRef).within(center, this.radius, field);
-  const points = await get(geoPoints);
-  for (let index = 0; index < points.length; index++) {
-    if(points[index].position.geopoint.latitude !== this.currentLat) {
-      this.oldPoints.push(points[index]);
-      console.log("In Radius Old : " );
-        console.log(points[index]);
-        this.point  = { 
-                lat: points[index].position.geopoint.latitude  ,
-                lng: points[index].position.geopoint.longitude
-              };
-        console.log(this.point);
+      console.log(this.point);
+      let a = Spherical.computeDistanceBetween(this.currentLoc,this.point);
+      if( a<= this.radius && this.point.lat !== this.currentLoc.lat && this.point.lng !== this.currentLoc.lng)
+      {
+        this.oldPoints.push(this.point);
+        console.log("In Radius OLD : " + a);
+        console.log(this.points);
         let marker: Marker = this.map.addMarkerSync({
-          title: 'NEED FOOD!! ' + points[index].phone,
+          title: 'NEED FOOD!! ' + res.data().phone,
           snippet: 'Please Donate Some',
           position: this.point,
           animation: GoogleMapsAnimation.BOUNCE
         });
-    }
-  }
+      }
+    } )
+  }, err => {
+    console.log(`Encountered error: ${err}`);
+  });
+
+  // const geoPoints = this.geo.query(firestoreRef).within(center, this.radius, field);
+  // const points = await get(geoPoints);
+  // for (let index = 0; index < points.length; index++) {
+  //   if(points[index].position.geopoint.latitude !== this.currentLat) {
+  //     this.oldPoints.push(points[index]);
+  //     console.log("In Radius Old : " );
+  //       console.log(points[index]);
+  //       this.point  = { 
+  //               lat: points[index].position.geopoint.latitude  ,
+  //               lng: points[index].position.geopoint.longitude
+  //             };
+  //       console.log(this.point);
+  //       let marker: Marker = this.map.addMarkerSync({
+  //         title: 'NEED FOOD!! ' + points[index].phone,
+  //         snippet: 'Please Donate Some',
+  //         position: this.point,
+  //         animation: GoogleMapsAnimation.BOUNCE
+  //       });
+  //   }
+  // }
   console.log(this.oldPoints);
 }
 
@@ -147,57 +155,58 @@ async loadPoints(){
   const field = 'position';
   
   let todaysDate = this.timestamp.getDate()+'-'+this.timestamp.getMonth()+'-'+this.timestamp.getFullYear();
+  console.log(todaysDate);
   const firestoreRef =  firestore().collection('needHelp').doc(todaysDate).collection('users');
 
-  // await firestoreRef.onSnapshot(docSnapshot => {
-  //   console.log(`Received doc snapshot: ${docSnapshot}`);
-  //   docSnapshot.forEach( res => {
-  //     console.log(res.data().position.geopoint);
-  //     this.point  = { 
-  //       lat: res.data().position.geopoint.latitude  ,
-  //       lng: res.data().position.geopoint.longitude
-  //     };
+  await firestoreRef.onSnapshot(docSnapshot => {
+    console.log(`Received doc snapshot New: ${docSnapshot}`);
+    docSnapshot.forEach( res => {
+      console.log(res.data().position.geopoint);
+      this.point  = { 
+        lat: res.data().position.geopoint.latitude  ,
+        lng: res.data().position.geopoint.longitude
+      };
 
-  //     console.log(this.point);
-  //     let a = Spherical.computeDistanceBetween(this.currentLoc,this.point);
-  //     if( a<= this.radius && this.point.lat !== this.currentLoc.lat && this.point.lng !== this.currentLoc.lng)
-  //     {
-  //       this.points.push(this.point);
-  //       console.log("In Radius : " + a);
-  //       console.log(this.points);
-  //       let marker: Marker = this.map.addMarkerSync({
-  //         title: 'NEED FOOD!! ' + res.data().phone,
-  //         snippet: 'Please Donate Some',
-  //         position: this.point,
-  //         animation: GoogleMapsAnimation.BOUNCE
-  //       });
-        
-  //     }
-  //   } )
-  // }, err => {
-  //   console.log(`Encountered error: ${err}`);
-  // });
-  const geoPoints = this.geo.query(firestoreRef).within(center, this.radius, field);
-  geoPoints.subscribe((res: any) => {
-    for (let index = 0; index < res.length; index++) {
-      if(res[index].position.geopoint.latitude !== this.currentLat) {
-        this.points.push(res[index]);
-        console.log("In Radius NEW : " );
-        
-        this.point  = { 
-          lat: res[index].position.geopoint.latitude  ,
-          lng: res[index].position.geopoint.longitude
-        };
-        console.log(this.point);
+      console.log(this.point);
+      let a = Spherical.computeDistanceBetween(this.currentLoc,this.point);
+      if( a<= this.radius && this.point.lat !== this.currentLoc.lat && this.point.lng !== this.currentLoc.lng)
+      {
+        this.points.push(this.point);
+        console.log("In Radius New: " + a);
+        console.log(this.points);
         let marker: Marker = this.map.addMarkerSync({
-          title: 'NEED FOOD!! ' + res[index].phone,
+          title: 'NEED FOOD!! ' + res.data().phone,
           snippet: 'Please Donate Some',
           position: this.point,
           animation: GoogleMapsAnimation.BOUNCE
         });
+        
       }
-    }
+    } )
+  }, err => {
+    console.log(`Encountered error: ${err}`);
   });
+  // const geoPoints = this.geo.query(firestoreRef).within(center, this.radius, field);
+  // geoPoints.subscribe((res: any) => {
+  //   for (let index = 0; index < res.length; index++) {
+  //     if(res[index].position.geopoint.latitude !== this.currentLat) {
+  //       this.points.push(res[index]);
+  //       console.log("In Radius NEW : " );
+        
+  //       this.point  = { 
+  //         lat: res[index].position.geopoint.latitude  ,
+  //         lng: res[index].position.geopoint.longitude
+  //       };
+  //       console.log(this.point);
+  //       let marker: Marker = this.map.addMarkerSync({
+  //         title: 'NEED FOOD!! ' + res[index].phone,
+  //         snippet: 'Please Donate Some',
+  //         position: this.point,
+  //         animation: GoogleMapsAnimation.BOUNCE
+  //       });
+  //     }
+  //   }
+  // });
   console.log(this.points);
   
   await this.getOldPoints();
